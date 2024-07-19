@@ -1,0 +1,39 @@
+1. Seleziona gli utenti che hanno postato almeno un video
+
+select users.username as users_posted_videos, count(medias.id) as num_of_videos
+from users 
+inner join medias on medias.user_id = users.id 
+where medias.`type` = 'video'
+group by users.username ;
+
+2. Seleziona tutti i post senza Like (13)
+
+select *
+from posts
+left join likes on likes.post_id = posts.id 
+where likes.post_id is null;
+
+3. Conta il numero di like per ogni post (165)
+
+select posts.title , count(likes.user_id) as number_of_likes
+from posts 
+left join likes on likes.post_id = posts.id
+group by posts.id
+order by posts.title;
+
+
+4. Ordina gli utenti per il numero di media caricati (25)
+
+select users.username, count(medias.id) as number_of_media
+from users 
+inner join medias on medias.user_id = users.id 
+group by user_id 
+order by number_of_media asc;
+
+5. Ordina gli utenti per totale di likes ricevuti nei loro posts (25)
+
+select users.username, count(likes.post_id) as number_of_likes
+from users 
+inner join likes on likes.user_id = users.id 
+group by users.username 
+order by number_of_likes asc;
